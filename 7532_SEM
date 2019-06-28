@@ -1,0 +1,87 @@
+#include<iostream>
+#include<vector>
+ 
+using namespace std;
+ 
+vector<vector<vector<int>>> cache;
+ 
+int Solve(int S, int E, int M)
+{
+    int value;
+    int rhs = 0;
+    //value = (rhs * 365 + S);
+    //if(value == 0)    value = 365
+    while (1)
+    {
+        value = (rhs * 365) + S;
+        if (cache[S][E][M] != -1)
+            return cache[S][E][M];
+ 
+        int tmpE = value % 24;  
+ 
+        int tmpM = value % 29;  
+ 
+        if (tmpE == E && tmpM == M)
+            return value;
+ 
+        cache[S][tmpE][tmpM] = value;
+ 
+        rhs++;
+    }
+    return -1;
+}
+ 
+void Test(void)
+{
+    int result = Solve(3, 6, 9);
+ 
+    cout << result << endl;
+ 
+}
+ 
+int main(void)
+{   
+    /*
+    cache.assign(365, vector<vector<int>>(24, vector<int>(29, -1)));
+    int T;
+    cin >> T;
+ 
+    for (int testCase = 0; testCase < T; testCase++)
+    {
+        int S, E, M;
+        cin >> S >> E >> M;
+        S %= 365;
+        E %= 24;
+        M %= 29;
+ 
+        int result = Solve(S, E, M);
+        cout << "#" << testCase + 1 << " " << result << endl;
+    }   
+    */
+ 
+    cache.assign(365, vector<vector<int>>(24, vector<int>(29, -1)));
+    int T;
+    cin >> T;
+ 
+    int value = 254040;
+ 
+    while (value > 0)
+    {
+        cache[value % 365][value % 24][value % 29] = value;
+        value--;
+    }
+ 
+    for (int testCase = 0; testCase < T; testCase++)
+    {
+        int S, E, M;
+        cin >> S >> E >> M;
+        S %= 365;
+        E %= 24;
+        M %= 29;
+ 
+        int result = cache[S][E][M];
+        cout << "#" << testCase + 1 << " " << result << endl;
+    }
+ 
+    //Test();
+}
