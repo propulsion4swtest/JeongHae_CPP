@@ -1,6 +1,4 @@
 #include<iostream>
-#include <vector>
-#include<stack>
 
 using namespace std;
 
@@ -100,11 +98,8 @@ int main(void)
 	int m, n;
 
 	int *arr, *set;
-	vector<int> vi;
 
 	scanf("%d %d", &m, &n);
-
-	vi.assign(m, 0);
 
 	printf("\n\n\n");
 
