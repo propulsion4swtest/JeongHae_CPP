@@ -51,7 +51,7 @@ void Explosion(queue<Node> &qu, int x, int y, int size, int board[][20])
             nextY += moveY[dir];
  
             if (nextX < 0 || nextX >= W || nextY < 0 || nextY >= H)
-                break;
+                continue;
  
             if (board[nextY][nextX] > 1)
                 qu.push(Node(nextX, nextY, board[nextY][nextX]));
