@@ -17,6 +17,34 @@ bool flag[10];
 
 int N, M;
 
+/*
+int DFS2(int node, int length)
+{
+
+	flag[node] = true;
+
+	int ret = 0;
+
+	for (int i = 0; i < N; i++)
+	{
+		if (path[node][i] == true && flag[i] == false)
+		{
+			int tmp = DFS2(i, length + 1);
+			ret = max(ret, tmp);
+		}
+	}
+
+	if (ret == 0)
+		ret = length;
+
+	
+	flag[node] = false;
+	ret = max(ret, length);
+	return ret;
+}
+
+*/
+
 //0~N 번의 시작점을 일일이 호출해주어야한다.
 //더이상 갈곳이 없다 : length 반환
 //이동할 곳이 있다 : 이동할 경로중 최대 이동거리 반환
@@ -107,3 +135,22 @@ int main(void)
 
 	return 0;
 }
+
+
+
+/*
+1
+10 12
+1 2
+2 3
+3 4
+4 1
+1 5
+5 6
+6 7
+7 1
+1 8
+8 9
+9 10
+10 1
+*/
