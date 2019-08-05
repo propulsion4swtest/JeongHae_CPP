@@ -117,9 +117,8 @@ void Simulation()
 				killCnt++;
 				cnt--;
 			}
-		}
-
 		board[targets[i].y][targets[i].x] = false;
+		}
 	}
 
 
