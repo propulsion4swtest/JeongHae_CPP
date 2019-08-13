@@ -1,0 +1,145 @@
+#include<iostream>
+#include<vector>
+
+using namespace std;
+
+vector<vector<bool>> relation;
+int T,n,p;
+vector<bool> flag;
+int score = 0;
+int number = 0;	//flag에서 true의 갯수이다. flag가 true가 되면 +1 false가 되면 -1 을 해준다
+//만약 일일이 number문을 수정하는것이 햇갈리다면 if(number == n) 앞에 flag내의 true의 갯수를 세는 반복문을 하나 만들어 주면 된다.
+
+vector<int> result;	//for debugging
+
+/*
+void RPerm(int index)
+{
+	if(number == n)
+	{
+		score++;
+
+		for(int i = 0 ; i < result.size(); i++)
+		{
+			cout << result[i];
+
+			if(i % 2 == 1)
+				cout << " " ;
+		}
+		cout<<endl;
+		
+		
+		return;
+	}
+
+	if(flag[index] == true)
+	{
+		RPerm(index + 1);
+		return;		//반환문을 통해 index번째 학생이 선택하는 경우를 완전 종료 시켜야 한다.
+	}
+
+	flag[index] = true;
+	number++;
+	result.push_back(index);
+
+	for(int i=index + 1; i<n; i++)
+	{
+		//arr[index] = i;
+		//index 번째 학생이 i 번째 학생을 선택한다. 
+		if(relation[index][i] == false || flag[i] == true)
+			continue;
+
+		flag[i] = true;
+		number++;
+		result.push_back(i);
+
+		RPerm(index + 1);
+
+		flag[i] = false;
+		number--;
+		result.pop_back();
+	}
+
+	flag[index] = false;
+	number--;
+	result.pop_back();
+}
+*/
+
+
+int Simulation()
+{
+	int firstFree = -1;
+
+	for(int i = 0 ; i<n; i++)
+	{
+		if(flag[i] == false)
+		{
+			firstFree = i;
+			break;
+		}
+
+	}
+
+
+	if(firstFree == -1)
+	{
+		return 1;
+	}
+
+	flag[firstFree] = true;
+	
+	int ret = 0;
+
+	for(int i = firstFree + 1; i < n; i++)
+	{
+		if(relation[firstFree][i] == false || flag[i] == true)
+		{
+			continue;		
+		}
+
+		flag[i] = true;
+		ret += Simulation();
+		flag[i] = false;
+	}
+
+	flag[firstFree] = false;
+	return ret;
+}
+
+
+
+
+
+int main(void)
+{
+	cin >> T;
+	int a,b;
+	for(int testCase = 0; testCase < T; testCase++)
+	{
+		score = 0;
+		number = 0;
+
+		cin >> n >> p;
+
+		relation.assign(n, vector<bool>(n, false));
+		flag.assign(n, false);
+
+		for(int i = 0 ; i<p ;i++)
+		{
+			cin >> a >> b;
+			relation[a][b] = true;
+			relation[b][a] = true;
+		}
+		
+
+		//RPerm(0);
+		int ret = Simulation();
+		
+
+		//cout << "#" << testCase + 1 << " " << score<<endl;
+		cout << "#" << testCase + 1 << " " << ret <<endl;
+	}
+
+	return 0;
+}
