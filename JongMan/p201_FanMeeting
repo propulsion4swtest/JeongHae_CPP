@@ -1,0 +1,108 @@
+#include<iostream>
+#include<vector>
+
+#define MAN true
+#define WOMAN false
+
+using namespace std;
+
+vector<bool> idol;
+vector<bool> fan;
+vector<int> manPosition;
+
+int n,m;
+int score = 0;
+
+/*
+int Solve()
+{
+	int start = 0;
+	
+
+	int manSize = manPosition.size();
+	int gap = manPosition.back() - manPosition.front();
+
+	while(1)
+	{
+		if(start + gap >= fan.size())
+			break;
+
+		int i;
+		for(i=0; i<manSize ; i++)
+		{
+			int check = start + manPosition[i];
+			if(fan[check] != MAN)
+				break;
+		}
+
+		if(i == manSize)
+			score++;
+
+		start++;
+	}
+
+
+	return score;
+}
+*/
+
+void Solve()
+{
+	int firstFan = idol.size() - 1;
+
+	while(1)
+	{
+		int lastFan = firstFan + fan.size() -1;		
+		//position부터 시작하여 남자아이돌이 포옹 할 수 있는지 점검한다
+		int i;
+		for(i=0; i<manPosition.size(); i++)
+		{
+			int idolPosition = manPosition[i];
+
+			if(idolPosition < firstFan || idolPosition > lastFan)
+				break;
+
+			if(fan[idolPosition - firstFan] != MAN)
+				break;			
+		}
+
+		if(i == manPosition.size())
+			score++;
+		
+		//맨 끝이 팬이 첫번째 아이돌과의 악수를 끝마치면 시뮬레이션이 종료된다.
+		if(lastFan == 0)
+			break;
+
+		firstFan--;
+	}
+}
+
+
+int main(void)
+{
+	cin >> n;
+	int input;
+	for(int i=0; i<n; i++)
+	{
+		cin >> input;
+		idol.push_back(input);
+
+		if(input == 1)
+		{
+			manPosition.push_back(i);
+		}
+	}
+	
+	cin >> m;
+	for(int i=0; i<m; i++)
+	{
+		cin >> input;
+		fan.push_back(input);
+	}
+
+	Solve();
+
+	cout<< score<<endl;
+
+	return 0;
+}
