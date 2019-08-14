@@ -2,10 +2,7 @@
 #include<vector>
 #include<string>
 
-
 using namespace std;
-
-
 
 vector<vector<bool>> board;
 
@@ -91,7 +88,6 @@ string Reverse(string &str)
 }
 
 
-
 int main(void)
 {
 	/*
@@ -105,10 +101,19 @@ int main(void)
 	UnCapsuled(str,0,length-1,0,length-1);
 	PrintBoard(length,length);
 	*/
+	
+	int T;
+	cin >> T;
+	string str;
+	for (int testCase = 0; testCase < T; testCase++)
+	{
+		index = 0;
 
-	string str = "xxwwwbxwxwbbbwwxxxwwbbbwwwwbb";
-	string result = Reverse(str);
-	cout<<result<<endl;
+		cin >> str;
 
+		string result = Reverse(str);
+		cout << result << endl;
+	
+	}
 	return 0;
 }
