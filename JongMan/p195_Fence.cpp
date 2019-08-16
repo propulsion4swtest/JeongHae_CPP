@@ -121,17 +121,22 @@ int main(void)
 {
 	//7
 	//8 1 6 10 7 8 5
-	cin >> n;
-	fence.assign(n,-1);
-	flag.assign(n,false);
-	int input;
-	for(int i=0; i<n; i++)
+	int T;
+	cin >> T;
+	for (int testCase = 0; testCase < T; testCase++)
 	{
-		cin >> input;
-		fence[i] = input;
+		cin >> n;
+		fence.assign(n, -1);
+		flag.assign(n, false);
+		int input;
+		for (int i = 0; i < n; i++)
+		{
+			cin >> input;
+			fence[i] = input;
+		}
+
+		int result = FindMax(0, n - 1);
+
+		cout << result << endl;
 	}
-
-	int result = FindMax(0, n - 1);
-
-	cout << result<<endl;
 }
