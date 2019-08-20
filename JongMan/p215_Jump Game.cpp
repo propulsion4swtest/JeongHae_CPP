@@ -20,15 +20,19 @@ vector<vector<bool>> flag;
 
 int n;
 
+bool isClear = false;
 void Solve(int x, int y)
 {
+	if (isClear == true)
+		return;
+
 	if(flag[y][x] == true)
 		return;
 
-	if(x == n-1 && y == n-1)
+	if (x == n - 1 && y == n - 1)
 	{
 		//clear;
-		cout << "Clear !!"<<endl;
+		isClear = true;
 		return;
 	}
 
@@ -46,18 +50,31 @@ void Solve(int x, int y)
 
 int main(void)
 {
-	cin>>n;
-	board.assign(n, vector<int>(n, -1));
-	flag.assign(n, vector<bool>(n, false));
-	int input;
-	for(int row = 0; row<n; row++)
+	int T;
+	cin >> T;
+	for (int testCase = 0; testCase < T; testCase++)
 	{
-		for(int cul=0; cul<n; cul++)
+		isClear = false;
+
+		cin >> n;
+		board.assign(n, vector<int>(n, -1));
+		flag.assign(n, vector<bool>(n, false));
+		int input;
+		for (int row = 0; row < n; row++)
 		{
-			cin >> input;
-			board[row][cul] = input;
-		}	
+			for (int cul = 0; cul < n; cul++)
+			{
+				cin >> input;
+				board[row][cul] = input;
+			}
+		}
+
+		Solve(0, 0);
+
+		if (isClear == true)
+			cout << "YES" << endl;
+		else
+			cout << "NO" << endl;
 	}
 
-	Solve(0,0);
 }
