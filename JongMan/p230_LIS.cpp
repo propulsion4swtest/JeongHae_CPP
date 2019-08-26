@@ -1,117 +1,60 @@
 #include<iostream>
 #include<vector>
+#include<algorithm>
 
 using namespace std;
 
+int N;
+vector<int> numbers;
 
-bool IsLIS(vector<int> &arr)
+vector<int> cache;
+
+int DFS(int arrSize, int length, int prevNum)
 {
-	int size = arr.size();
+	if (arrSize == N)
+		return length;
 
-	for(int i=0; i<size - 1; i++)
+
+	//arrSize 번째 numbers 값을 LIS에 추가시킨다.
+	int tmp1 = 0, tmp2 = 0;
+	
+	if (numbers[arrSize] > prevNum)
 	{
-		if(arr[i] > arr[i + 1])
-			return false;
+		if (cache[arrSize] == -1)
+			tmp1 = DFS(arrSize + 1, length + 1, numbers[arrSize]);
+		else
+			tmp1 = cache[arrSize] + length;
 	}
 
-	return true;
+	tmp2 = DFS(arrSize + 1, length, prevNum);
+	int tmp = max(tmp1, tmp2);
+
+	if (numbers[arrSize] > prevNum)
+		cache[arrSize] = max(cache[arrSize], tmp - length);
+
+	return tmp;
 }
 
-vector<int> vi;
-
-void PrintArr(vector<int> &arr)
-{
-	cout<<"\n\n";
-
-	for(int i=0; i<arr.size(); i++)
-	{
-		cout << arr[i] <<" ";
-	}
-
-	cout<<"\n\n";
-}
-
-bool isFind = false;
-int answer = 1;
-void Comb(vector<int> &arr, int arrSize, int m, int n, int index)
-{
-	if(isFind == true)
-		return;
-
-	if(arrSize == n)
-	{
-		//arr[0] ~ arr[n-1] 의 index에 있는 값을 제외한 나머지 값이 저장된 vector를 만든다.
-		vector<int> tmp;
-		//int exceptIndex = 0;
-		vector<int>::iterator it = arr.begin();
-		for(int i = 0; i<vi.size() ; i++)
-		{
-			if(it != arr.end())
-				if(i == *it)
-					it++;
-				else
-					tmp.push_back(vi[i]);		
-			else
-				tmp.push_back(vi[i]);
-		}
-
-		//PrintArr(tmp);
-		if(IsLIS(tmp))
-		{
-			answer = m - n;
-			isFind = true;
-		}
-
-		return;
-	}
-
-	if(index == m)
-		return;
-
-	arr[arrSize] = index;
-
-	Comb(arr, arrSize + 1, m, n, index+1);
-	Comb(arr, arrSize, m, n, index+1);
-}
-
-
-/*
-5
-1 3 4 2 4
-*/
 
 int main(void)
 {
-	int M;
-	cin >> M;
-
-	int input;
-	for(int i=0; i<M; i++)
+	int T;
+	cin >> T;
+	for (int testCase = 0; testCase < T; testCase++)
 	{
-		cin >> input;
-		vi.push_back(input);
-	}
-
-	vector<int> arr;
-	for(int i=0; i < M; i++)
-	{
-		arr.assign(i,-1);
-		Comb(arr,0,M,i,0);
-		if(isFind == true)
+		numbers.clear();
+		cin >> N;
+		cache.assign(N, -1);
+		int input;
+		for (int i = 0; i < N; i++)
 		{
-			cout<<answer<<endl;
-			break;
+			cin >> input;
+			numbers.push_back(input);
 		}
-	}
-
-
-	/*
-	int N = 2;
-	vector<int> arr;
-	arr.assign(N, -1);
-
-	Comb(arr,0,M,N,0);
-	*/
+	
+		int value = DFS(0, 0, -1);
+		cout << value << endl;
+	}	
 
 	return 0;
 }
