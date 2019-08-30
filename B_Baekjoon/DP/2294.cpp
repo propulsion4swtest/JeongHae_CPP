@@ -8,7 +8,7 @@ int N, K;
 int coins[105];
 int cache[10005];
 
-int DFS(int arrSize, int score, int index)
+int DFS(int arrSize, int score)
 {
 	if (score == K)
 		return arrSize;
@@ -24,7 +24,7 @@ int DFS(int arrSize, int score, int index)
 
 	for (int i = 0; i < N; i++)
 	{
-		tmp = DFS(arrSize + 1, score + coins[i], i);
+		tmp = DFS(arrSize + 1, score + coins[i]);
 		ret = min(ret, tmp);
 	}
 
