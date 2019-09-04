@@ -68,23 +68,12 @@ int main(void)
 		nodes[i].key = i;
 	}
 
-	/*
+	
 	Heap heap;
 	heap.Init(nodes, 6);
-	*/
+	
 
-	Heap heap;
-	heap.Init();
-	for (int i = 0; i < 6; i++)
-		heap.Insert(&nodes[i]);
-
-	/*
-	for (int i = 0; i < 6; i++) {
-		cout << heap.nodes[1].value;
-		heap.Erase();
-	}
-	*/
-
+	
 	heap.Erase();
 	cout << heap.nodes[1].value << " ";
 
