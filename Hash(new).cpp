@@ -99,6 +99,9 @@ public:
 
 			delete it->pPrev;
 		}
+		before->pNext = after;
+		after->pPrev = before;
+		
 		cnt = 0;
 	}
 
