@@ -12,7 +12,7 @@ public:
 BinTreeNode binTreeNodePool[1000000];
 int binTreeNodePoolIndex = 0;
 
-void BonTreeNode() {
+void InitBinTreeNode() {
 	binTreeNodePoolIndex = 0;
 }
 
