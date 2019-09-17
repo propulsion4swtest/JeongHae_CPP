@@ -133,7 +133,7 @@ public:
 		}
 		else if (eraser->left != 0 && eraser->right != 0) {
 			//자식이 둘다 있을 경우
-			//왼쪽 밑으로 한칸 이동후 오른쪽 밑으로 이동한다.
+			//왼쪽으로 한칸 이동후 오른쪽끝으로 이동한다.
 			//찾아낸 node를 지워진 위치에 대체시킨다.
 			BinTreeNode *newNode = eraser->left;
 			while (1) {
