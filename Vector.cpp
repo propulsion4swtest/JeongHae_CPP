@@ -21,7 +21,7 @@ public:
 		for (int i = 0; i < reserved / 2; i++)
 			tmp[i] = nodes[i];
 
-		delete nodes;
+		delete[] nodes;
 		nodes = tmp;
 	}
 
@@ -32,7 +32,7 @@ public:
 	}
 
 	~Vector() {
-		delete nodes;
+		delete[] nodes;
 	}
 
 	void PushBack(int key, int value) {
@@ -45,7 +45,7 @@ public:
 	}
 
 	void Clear() {
-		delete nodes;
+		delete[] nodes;
 		cnt = 0;
 		reserved = 4;
 		nodes = new VectorNode[reserved];
