@@ -30,6 +30,18 @@ bool StrCmp(char *lhs, char *rhs) {
 		return false;
 }
 
+int Str2Int(char *name) {
+	int ret = 0, index = 0;
+	while (1) {
+		if (name[index] == '\0')
+			break;
+		ret = ((ret * 26) + name[index] - 'a') % TABLE_SIZE;
+		index++;
+	}
+
+	return ret;
+}
+
 class HashListNode {
 public:
 	int value;
@@ -97,6 +109,22 @@ public:
 class Hash {
 public:
 	HashList table[TABLE_SIZE];
+
+	int Hashing(char *name) {
+		int ret = Str2Int(name);
+		return ret;
+	}
+
+	void Insert(int value, char *name) {
+		int address = Hashing(name);
+		table[address].Insert(value, name);
+	}
+
+	HashListNode* Find(char *name) {
+		int address = Hashing(name);
+		HashListNode *finder = table[address].Find(name);
+		return finder;
+	}
 };
 
 Hash db;
@@ -111,18 +139,23 @@ void Init() {
 
 
 int main(void) {
+
+
+
+	/*
+	Init();
 	char str1[25] = "hello";
 	char str2[25] = "world";
 	char str3[25] = "zzzz";
 
-	HashList hashList;
-	hashList.Init();
-	hashList.Insert(5, str1);
-	hashList.Insert(10, str2);
 
-	cout << hashList.Find(str1)->value << "\n";
-	cout << hashList.Find(str2)->value << "\n";
-	cout << hashList.Find(str3) << "\n";
+	db.Insert(5, str1);
+	db.Insert(10, str2);
+
+	cout << db.Find(str1)->value << "\n";
+	cout << db.Find(str2)->value << "\n";
+	cout << db.Find(str3) << "\n";
+	*/
 
 	return 0;
 }
