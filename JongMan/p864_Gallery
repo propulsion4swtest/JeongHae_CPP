@@ -1,0 +1,64 @@
+#include <vector>
+#include <iostream>
+#include <string.h>
+
+using namespace std;
+
+int T, V, E;
+bool visited[1000], camera[1000];
+vector<int> adj[1000];
+
+
+bool DFS(int here) {
+	visited[here] = true;
+	if (adj[here].size() == 0) return false;
+
+	bool watched = false;
+	for (int i = 0; i < adj[here].size(); i++) {
+		int child = adj[here][i];
+		if (visited[child] == false)
+			if (DFS(child) == false) {
+				camera[here] = true;
+				watched = true;
+			}
+			else if (camera[child] == true)
+				watched = true;
+	}
+	return watched;
+}
+
+int InstallCamera() {
+	for (int i = 0; i<V; i++)
+		if (visited[i] == false)
+			if (DFS(i) == false)
+				camera[i] = true;
+
+	int count = 0;
+	for (int i = 0; i<V; i++)
+		if (camera[i] == true)
+			count++;
+	return count;
+}
+
+int main() {
+	cin >> T;
+	for (int testCase = 0; testCase < T; testCase++) {
+		memset(visited, 0, sizeof(visited));
+		memset(camera, 0, sizeof(camera));
+		cin >> V >> E;
+
+		for (int i = 0; i<V; i++)
+			adj[i].clear();
+
+		for (int i = 0; i<E; i++) {
+			int a, b;
+			cin >> a >> b;
+			adj[a].push_back(b);
+			adj[b].push_back(a);
+		}
+
+		cout << InstallCamera() << endl;
+		
+	}
+	return 0;
+}
