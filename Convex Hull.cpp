@@ -8,120 +8,103 @@ class Point {
 public:
 	int x, y;
 
-	Point(int x_, int y_) : x(x_), y(y_){}
+	Point(int x_, int y_) : x(x_), y(y_) {}
 
-	Point():Point(-1,-1){}
+	Point() :Point(-1, -1) {}
+
+	bool operator < (const Point& rhs) const {
+		if (y != rhs.y)
+			return y < rhs.y;
+		else
+			return x < rhs.x;
+	}
 };
 
 int N;
 vector<Point> points;
 
-//오른편에 있다면 양수, 왼편에 있다면 음수를 반환
-double CrossProduct(Point &a, Point &b) {
-	return double(a.x * b.y - a.y * b.x);
-}
-
-class SortedIndex {
+class SortedNode {
 public:
 	int index;
 	double degree;
 
-	SortedIndex(int index_, double degree_) : index(index_), degree(degree_){}
+	SortedNode(int index_, double degree_) : index(index_), degree(degree_) {}
 
-	SortedIndex() : SortedIndex(-1,-1){}
+	SortedNode() : SortedNode(-1,-1) {}
 
-	bool operator < (const SortedIndex& rhs) const {
+	bool operator < (const SortedNode& rhs) const {
 		return degree < rhs.degree;
 	}
+
 };
 
+vector<SortedNode> sortedIndex;
 
-vector<int> ret;
+//b가 a의 왼편에 있으면 -, 오른편에 있으면 +
+int CrossProduct(Point& a, Point& b) {
+	return (a.x * b.y) - (a.y * b.x);
+}
 
-double GetDegree(Point &a, Point &b) {
-
-	if (a.y == b.y) {
+double GetDegree(Point& a, Point& b) {
+	if (b.y - a.y == 0) {
 		if (b.x > a.x)
 			return 100000000;
 		else
 			return -100000000;
 	}
 	else
-		return (double(b.x) - double(a.x)) / (double(b.y) - double(a.y));
+		return double(b.x - a.x) / double(b.y - a.y);
 }
 
-//ret에 외곽을 이루는 점들만 모은다
+vector<int> ret;
+
 void ConvexHull() {
-	//points 내에서 x,y 좌표가 제일 낮은 좌표(최 상단 좌측의)를 구한다.	
-	int startIndex = 0;
+	sort(points.begin(), points.end());
 
-	for (int i = 1; i < N; i++) {
-		if (points[i].y < points[startIndex].y)
-			startIndex = i;
-		else if (points[i].y == points[startIndex].y) {
-			if (points[i].x < points[startIndex].x)
-				startIndex = i;
-		}
-	}
-
-	//시계방향에 있는 순으로 index를 정렬한다.
-	vector<SortedIndex> sortedIndex;
-	sortedIndex.push_back(SortedIndex(startIndex, -999999999));
+	//제일 왼쪽 위에 있는 points[0]을 기준으로 모든 점들이 반시계 방향이 되도록 정렬한다.
+	sortedIndex.push_back(SortedNode(0, -2000000000));
 	double degree;
 	for (int i = 1; i < N; i++) {
-		degree = GetDegree(points[startIndex], points[i]);
-		sortedIndex.push_back(SortedIndex(i, degree));
+		degree = GetDegree(points[0], points[i]);
+		sortedIndex.push_back(SortedNode(i, degree));
 	}
 
 	sort(sortedIndex.begin(), sortedIndex.end());
 
-	//이제 index에 있는 값 순서로 접근하면 반시계 방향으로 접근 가능하다.
-
-
-	//이제 ret에 값들을 형성해 나간다.
 	ret.push_back(sortedIndex[0].index);
 	ret.push_back(sortedIndex[1].index);
 
+	int first, second, other;                                                                     
 	int cIndex = 2;
 	Point lineA, lineB;
-	int first, second, other;
 	double dir;
-	while (1) {
+	while (cIndex < N) {
 		other = sortedIndex[cIndex].index;
-		
-		if (cIndex == N)
-			break;
 
-		//ret[ret.size() - 1] 에서 ret[ret.size() - 2] 로 향하는선을 긋는다.
-		//ret[ret.size() - 1] 에서 sortedIndex[cIndex].index 로 향하는 선을 긋는다.
 		while (1) {
+			//lineA : first -> second
+			//lineB : first -> other
+			//lineB가 lineA의 왼편에 올때까지 반복
 			first = ret[ret.size() - 2];
 			second = ret[ret.size() - 1];
-
+			
 			lineA.x = points[second].x - points[first].x;
 			lineA.y = points[second].y - points[first].y;
 
-			lineB.x = points[other].x - points[first].x;
-			lineB.y = points[other].y - points[first].y;
+			lineB.x = points[other].x - points[second].x;
+			lineB.y = points[other].y - points[second].y;
 
 			dir = CrossProduct(lineA, lineB);
 
 			if (dir < 0) {
-				//sortedIndex[cIndex].index의 점이 선의 왼편에 있다면(외적이 음수)
 				ret.push_back(other);
 				break;
 			}
-			else {
-				//sortedIndex[cIndex].index의 점이 선의 오른편에 있다면(외적이 양수)
-				//first에서 second로 그은 선의 왼편에 other이 존재할때까지 계속해서 ret를 pop_back 한다.
+			else
 				ret.pop_back();
-			}
 		}
-
 		cIndex++;
 	}
-
-
 
 }
 
