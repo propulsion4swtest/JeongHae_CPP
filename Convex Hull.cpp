@@ -87,6 +87,8 @@ void ConvexHull() {
 	int first, second, other;
 	double dir;
 	while (1) {
+		other = sortedIndex[cIndex].index;
+		
 		if (cIndex == N)
 			break;
 
@@ -95,7 +97,6 @@ void ConvexHull() {
 		while (1) {
 			first = ret[ret.size() - 2];
 			second = ret[ret.size() - 1];
-			other = sortedIndex[cIndex].index;
 
 			lineA.x = points[second].x - points[first].x;
 			lineA.y = points[second].y - points[first].y;
