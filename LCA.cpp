@@ -27,8 +27,7 @@ void DFS(int node, int dep) {
 
 
 int LCA(int a, int b) {
-	DFS(0, 0);
-
+	
 	//a와 b를 같은 위치로 만들어야 한다.
 
 	int low, deep;
@@ -102,7 +101,7 @@ int main(void) {
 		tree[input].push_back(i);
 	}
 
-
+	DFS(0, 0);
 	int ret = LCA(5, 10);
 	ret = LCA(1, 13);
 	ret = LCA(7, 10);
