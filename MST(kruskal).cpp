@@ -65,8 +65,8 @@ int MST() {
 		//i번 간선은 최소 신장 트리에 포함 될 수 있다.
 		ret += edges[i].weight;
 
-		UnionMerge(a, edges[i].from);
-		UnionMerge(b, edges[i].to);
+		//UnionMerge(a, edges[i].from);
+		//UnionMerge(b, edges[i].to);
 		UnionMerge(edges[i].from, edges[i].to);
 	}
 
