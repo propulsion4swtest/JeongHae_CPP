@@ -9,9 +9,9 @@
 
 
 
-#x = 5# ddd
+$x = 5$ ddd
 
-##x = \dfrac{-b \pm \aqrt{b^2 - 4ac}}{2a}##
+$$x = \dfrac{-b \pm \aqrt{b^2 - 4ac}}{2a}$$
 
 
 ```C++
